@@ -13,12 +13,26 @@ run/
 *.ipr
 *.iws
 *.launch
+.vscode/
+.fleet/
 
 # JVM crash / profiler dumps
 hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# Minecraft logs and crash reports
+logs/
+crash-reports/
+*.log
+
+# Local helper scripts (not part of the published mod)
+/publish.ps1
+
+# Merge / rebase leftovers
+*.orig
+*.rej
 
 # OS
 .DS_Store
