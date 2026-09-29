@@ -1,0 +1,47 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+repositories {
+	// Maven Central mirror that is reachable on restricted networks; used if the official
+	// Central endpoint (repo1.maven.org) is slow or blocked.
+	maven {
+		name = 'AliyunCentral'
+		url = 'https://maven.aliyun.com/repository/public/'
+	}
+}
+
+// Loom registers a "Mojang" repository pointing at libraries.minecraft.net, which settings.gradle
+// redirects to the BMCLAPI community mirror. That mirror randomly fails on bulk jar downloads, and
+// because Loom orders it ahead of Maven Central, Gradle binds each Minecraft library to it and never
+// falls back. Restrict it to Mojang's own artifacts so Maven Central serves all the third-party ones.
+repositories.named('Mojang').configure {
+	content {
+		includeGroup 'com.mojang'
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+}
+
+java {
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}

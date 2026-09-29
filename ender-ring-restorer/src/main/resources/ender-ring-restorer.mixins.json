@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "dev.enderring.restorer.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"mixins": [
+		"DistanceToPointFunctionSamplerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

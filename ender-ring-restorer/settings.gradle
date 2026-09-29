@@ -1,0 +1,23 @@
+pluginManagement {
+	repositories {
+		maven {
+			name = 'Fabric'
+			url = 'https://maven.fabricmc.net/'
+		}
+		mavenCentral()
+		gradlePluginPortal()
+	}
+}
+
+// Loom fetches Minecraft assets and libraries straight from Mojang's CDNs, which are
+// unreachable on some networks (resources.download.minecraft.net resets the connection and
+// libraries.minecraft.net times out). Loom's MirrorUtil reads the extra properties below, so
+// redirect both to the BMCLAPI mirror. Run with -PuseOfficialCdn to keep the official hosts.
+gradle.beforeProject { project ->
+	if (!project.hasProperty('useOfficialCdn')) {
+		project.ext.loom_resources_base = 'https://bmclapi2.bangbang93.com/assets/'
+		project.ext.loom_libraries_base = 'https://bmclapi2.bangbang93.com/maven/'
+	}
+}
+
+rootProject.name = 'ender-ring-restorer'
